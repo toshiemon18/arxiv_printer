@@ -36,9 +36,7 @@ module ArXivPrinter
     # === Return
     #   url(String) : pdf link
     def fetch_pdf_link
-      base_url = "https://arxiv.org"
-      href = @html.xpath("//*[@id=\"abs\"]/div[1]/div[1]/ul/li[1]/a").attribute("href").value
-      "#{base_url}#{href}"
+      url.gsub!("abs", "pdf")
     end
 
     private
