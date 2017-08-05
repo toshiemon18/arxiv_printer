@@ -42,11 +42,11 @@ module ArXivPrinter
     private
     # fetch html of arXiv page
     # === Args
-    #   None
+    #   args : optional variable
     # === Return
     #   None
-    def fetch_html
-      html = Nokogiri::HTML(open(@url, {proxy_http_basic_authentication: PROXY}))
+    def fetch_html(**args)
+      html = Nokogiri::HTML(open(@url, args))
       @html = html
     end
   end
