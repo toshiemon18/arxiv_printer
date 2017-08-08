@@ -13,7 +13,12 @@ module ArXivPrinter
     def initialize
       key = ENV["DROPBOX_KEY"]
       secret_key= ENV["DROPBOX_SECRET_KEY"]
-      @client = DropboxApi
+      token = ENV["DROPBOX_TOKEN"]
+      @client = DropboxApi::Client.new(token)
+    end
+
+    def paper_backup(file, file_name)
+      @client.upload("/#{file_name}", file)
     end
   end
 end
