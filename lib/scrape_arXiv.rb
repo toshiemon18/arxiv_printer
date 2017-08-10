@@ -15,10 +15,10 @@ module ArXivPrinter
   class ScrapeArXiv
     attr_accessor :url
 
-    def initialize(url)
+    def initialize(url, **args)
       @url = url
       @html = nil
-      fetch_html
+      fetch_html(args)
     end
 
     # fetch target paper title
@@ -30,25 +30,28 @@ module ArXivPrinter
       title = @html.xpath("//*[@id=\"abs\"]/div[2]/h1/text()").text.strip!
     end
 
+    def download
+      paper_url = fetch_pdf_link
+      paper = open(paper_url)
+    end
+
+    private
     # fetch pdf link for target paper
     # === Args
     #   None
     # === Return
     #   url(String) : pdf link
-    def fetch_pdf_link
-      base_url = "https://arxiv.org"
-      href = @html.xpath("//*[@id=\"abs\"]/div[1]/div[1]/ul/li[1]/a").attribute("href").value
-      "#{base_url}#{href}"
+    def pdf_link
+      url.gsub!("abs", "pdf")
     end
 
-    private
     # fetch html of arXiv page
     # === Args
-    #   None
+    #   args : optional variable
     # === Return
     #   None
-    def fetch_html
-      html = Nokogiri::HTML(open(@url, {proxy_http_basic_authentication: PROXY}))
+    def fetch_html(**args)
+      html = Nokogiri::HTML(open(@url, args))
       @html = html
     end
   end

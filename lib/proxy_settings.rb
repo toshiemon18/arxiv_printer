@@ -8,8 +8,12 @@
 module ArXivPrinter
   # This constant is the proxy parameters in TNCT proxy system
   PROXY = [
-            ENV["PROXY_URL"],
-            ENV["PROXY_USER"],
-            ENV["PROXY_PASSWD"]
-          ]
+    ENV["PROXY_URL"],
+    ENV["PROXY_USER"],
+    ENV["PROXY_PASSWD"]
+  ]
+  BASIC_AUTH = [
+    ENV["PROXY_USERNAME"],
+    ENV["PROXY_PASSWORD"]
+  ]
  end
