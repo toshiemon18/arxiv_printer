@@ -12,7 +12,7 @@ module ArXivPrinter
     ENV["PROXY_USER"],
     ENV["PROXY_PASSWD"]
   ]
-  BASIC = [
+  BASIC_AUTH = [
     ENV["PROXY_USERNAME"],
     ENV["PROXY_PASSWORD"]
   ]

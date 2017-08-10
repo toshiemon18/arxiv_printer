@@ -18,6 +18,7 @@ module ArXivPrinter
       @options = {
         url: ""
         use_proxy: false,
+        use_basic: false,
         use_ccpd:  false
       }
 
@@ -25,6 +26,9 @@ module ArXivPrinter
       @opt.on("--url", "Target URL what arXiv page") {|v| @options[:url] = v}
       @opt.on("--use-proxy", "Use proxy server (default : false)") do |v|
         @options[:use_proxy] = v
+      end
+      @opt.on("--use-proxy-basic", "Use proxy basic authentication (default : false)") do |v|
+        @options[:use_basic] = v
       end
       @opt.on("--use-ccpd", "Use Ccpd system (default : false)") do |v|
         @options[:use_ccpd] = v
@@ -37,13 +41,18 @@ module ArXivPrinter
       rescue OptionParser::InvalidOption => e
         puts e.message
       end
+
       if opts[:url].empty?
         raise "Invalid optional argument. --url is empty."
       end
+
       PrinterHelper.use_ccpd if opts[:use_ccpd]
       args = {}
-      args[:authenticate_]
-      ArXivPrinter::Scrape.new(@options["url"])
+      args[:proxy_http_basic_authentication] = PROXY if @options[:use_proxy]
+      args[:http_basic_authentication] = BASIC_AUTH if @options[:use_basic]
+      scraper = ScrapeArXiv.new(@options[:url], args)
+      title = scraper.fetch_paper_title
+      paper = scraper.download
     end
   end
 end
