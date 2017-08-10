@@ -17,6 +17,12 @@ module ArXivPrinter
       @client = DropboxApi::Client.new(token)
     end
 
+    # Upload paper to specific folder on Dropbox
+    # === Args
+    #   file(File) : file object
+    #   file_name(String) : file name
+    # === Returns
+    #   None
     def paper_backup(file, file_name)
       @client.upload("/#{file_name}", file)
     end
