@@ -12,7 +12,7 @@ require "open3"
 
 module ArXivPrinter
   class PrinterHelper
-    def initialize
+    def use_ccpd
       @ccpd = "/etc/init.d/ccpd"
       @ccpd = false
       init_ccpd
@@ -34,6 +34,14 @@ module ArXivPrinter
       else
         puts stdout
       end
+    end
+
+    def lp(path)
+      stdout, stderr, status = Open3.capture3("lp", path)
+      if !status
+        raise "Faild lp command : #{stderr}"
+      end
+      puts stdout
     end
 
     private
